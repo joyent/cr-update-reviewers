@@ -1,0 +1,24 @@
+{
+	"name": "cr-update-reviewers",
+	"version": "1.0.0",
+	"description": "command-line tools for working with cr.joyent.us",
+	"directories": {
+		"bin": "./bin"
+	},
+	"dependencies": {
+		"assert-plus": "^1.0.0",
+		"cmdutil": "^1.1.0",
+		"extsprintf": "^1.3.0",
+		"forkexec": "^1.1.0",
+		"jsprim": "^1.3.0",
+		"posix-getopt": "^1.2.0",
+		"vasync": "^1.6.4",
+		"verror": "^1.8.1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/davepacheco/cr-update-reviewers.git"
+	},
+	"keywords": [ "gerrit", "joyent", "code-review" ],
+	"license": "MIT"
+}
