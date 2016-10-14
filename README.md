@@ -3,7 +3,13 @@ change on [cr.joyent.us](https://cr.joyent.us) and updates the commit message
 for that change based on the approvals already there.  It will create a new
 patchset for the change with the updated commit message.
 
-Here's an example:
+Install with:
+
+    $ npm install -g git+https://github.com/davepacheco/cr-update-reviewers
+
+Or clone this repo and build with `make` or `npm install`.
+
+Here's an example of using it:
 
     $ ./bin/cr-update-reviewers 684
     Change 684 current commit message:
