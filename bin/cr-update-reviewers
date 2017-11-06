@@ -167,6 +167,7 @@ function crFetchChangeInfo(config, callback)
 		    typeof (changeinfo.project) != 'string' ||
 		    typeof (changeinfo.number) != 'string' ||
 		    typeof (changeinfo.commitMessage) != 'string' ||
+		    typeof (changeinfo.createdOn) != 'number' ||
 		    typeof (changeinfo.currentPatchSet) != 'object' ||
 		    changeinfo.currentPatchSet === null ||
 		    typeof (changeinfo.currentPatchSet.ref) !=
@@ -180,12 +181,15 @@ function crFetchChangeInfo(config, callback)
 		config.cur_changenumber = changeinfo.number;
 		config.cur_commit_message = changeinfo.commitMessage;
 		config.cur_patchset_ref = changeinfo.currentPatchSet.ref;
+		config.cur_createdOn = changeinfo.createdOn;
 
 		console.log('Change %s current commit message:',
 		    config.cur_changenumber);
 		console.log('----------------------------------------------');
 		process.stdout.write(config.cur_commit_message);
-		console.log('----------------------------------------------\n');
+		console.log('----------------------------------------------');
+		console.log('Current commit date: %s\n',
+		    new Date(config.cur_createdOn * 1000).toISOString());
 		callback();
 	});
 }
@@ -303,6 +307,9 @@ function crConstructApprovals(config, callback)
 	} else {
 		setImmediate(callback);
 	}
+
+	// Set the date of the commit to now.
+	config.cur_new_createdOn = new Date().toISOString();
 }
 
 /*
@@ -313,7 +320,8 @@ function crConfirm(config, callback)
 	console.log('Suggested commit message:');
 	console.log('------------------------------------------------');
 	process.stdout.write(config.cur_new_message);
-	console.log('------------------------------------------------\n');
+	console.log('------------------------------------------------');
+	console.log('Suggested commit date: %s\n', config.cur_new_createdOn);
 	mod_cmdutil.confirm({
 	    'message': 'Create a new patchset with the suggested ' +
 	        'commit message? (y/[n]) '
@@ -399,8 +407,8 @@ function crGitAmendCommit(config, callback)
 	var argv;
 
 	console.error('Amending commit.');
-	argv = [ 'git', 'commit', '--amend', '--message',
-	    config.cur_new_message ];
+	argv = [ 'git', 'commit', '--amend', '--date', config.cur_new_createdOn,
+	     '--message', config.cur_new_message ];
 	mod_forkexec.forkExecWait({
 	    'argv': argv,
 	    'cwd': config.cur_tmpdir,
