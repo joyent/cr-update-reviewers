@@ -5,7 +5,7 @@ patchset for the change with the updated commit message.
 
 Install with:
 
-    $ npm install -g git+https://github.com/davepacheco/cr-update-reviewers
+    $ npm install -g git+https://github.com/joyent/cr-update-reviewers
 
 Or clone this repo and build with `make` or `npm install`.
 
